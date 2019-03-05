@@ -42,8 +42,106 @@ boJ9jbbUNNfktd78OOpsqOltutMc3MY1
 ```
 Voila! Here's our password for the next level.
 
+Level 0 ---> Level 1 Password : boJ9jbbUNNfktd78OOpsqOltutMc3MY1
 # Level 1
 
-Will be added soon...
+Not changing any setting in PuTTY, we establish SSH connection again, but this time, we use bandit1 as username, and the password we obtained from the last level as password.
 
+I run the ls command once again, to see what I have in hand:
+```
+bandit0@bandit:~$ ls
+-
+```
+Hmm, a file named with "-"? Okay, I know what to do, let me use Cat to read what's inside. 
+Whoops.
+Why doesn't it work? Well, you guess. Filename has dash in it, and when I give this filename as a parameter to Cat, it thinks I'm giving it a command line option. I must tell it that it's not an option, but a filename. Feeding it the full direction should do the trick:
+```
+bandit1@bandit:~$ ls
+-
+bandit1@bandit:~$ cat ./-
+CV1DtqXWVFXTvM2F0k09SHz0YwRINYA9
+```
+And here it is, our password for the next level.
+Level 1 ---> Level 2 Password : CV1DtqXWVFXTvM2F0k09SHz0YwRINYA9
 
+# Level 2
+
+Once again, I establish the connection and run ls command in the home directory. 
+```
+bandit2@bandit:~$ ls
+spaces in this filename
+```
+[SPACES? NOOOOOOOOOOOOOOOOOOOOOOOOOO](https://www.youtube.com/watch?v=rL81kD44C8E)
+
+Now I have to tell Cat, that I don't mean different parameters by spaces, but the filename altogether. To do this, I use the power of quotes. 
+```
+bandit2@bandit:~$ cat "spaces in this filename"
+UmHadQclWmgdLOKQ3YNgjWxGoRMb5luK
+```
+And here we have it again.
+Level 2 ---> Level 3 Password : UmHadQclWmgdLOKQ3YNgjWxGoRMb5luK
+
+# Level 3
+
+I go through the same routine, connection, ls... But this time, something's different. There's a file named "inhere", but it's marked in blue. What's with this strange file, why is it blue? I need more details. And these details, come with the right options. I will use de ls command, with the option "-long" or "-l" in short. This is going to give me more detailed information about this file.
+
+[PuTTY Screenshot](https://imgur.com/OuyPXdO.png)
+
+Now this simple line, contains decent amount of information, if you know how to read it. Let's start from right, and go to left:
+inhere: This is our file's name.
+Oct 16 14:00 : Last modification time of the file
+4096 : File size in Bytes
+root : Owner of this file (But why are there two??)
+2 : Total number of files (Two??)
+drwxr-xr-x : What is this???
+
+Now, let's take it slowly. It all was going well, until we noticed root written twice, and then there's 2. What can these possibly mean? As you've probably guessed so far, this is no single file. This is a Directory file, or what you call a Folder. It's a file, which has files inside, so if you've tried to read it with Cat, you must have seen the error. Now "root root" and number 2 started making sense. But what's with those random letters? Let's go down to the rabbit's hole:
+
+# drwxr-xr-x
+Let's split this mysterious piece of text into 4 parts, shall we? First, the first letter: 
+"D",
+And then, the rest as trigrams:
+"RWX",
+"R-X",
+"R-X".
+
+We seperated it into blocks, because that's how it should be read. The first block, first character, gives us the type of the file. "D", stands for Directory, and this is also why it's coded in blue text. We will see other file types in time as well, but let's continue. 
+
+Rest of the characters, represent permissions to handle this file. First part, is the Owner's permissions. It says the owner is permitted to "RWX", which means owner can Read, Write or Execute this file. Second part, is Group permissions. Now, every user in Linux is assigned to a group, and these users' permissions are controlled through this group. "R-X" says the group users can Read, or Execute this file, but can't change it. The third and last part stands for Other, which literally means any other than owner and group users, and their permissions. 
+
+On a side note: We can use "file [filename]" command in Linux, to see it's file type as well.
+
+Now let's go on. Since we've figured that inhere is not a file to read, but a file to move into, we will use a new command:
+"cd inhere", which literally means change directory to inhere. As we moved into the new directory, we run ls to see what's inside:
+```
+bandit3@bandit:~/inhere$ ls
+bandit3@bandit:~/inhere$
+```
+I'm sorry, what? Nothing?
+
+Well, sometimes you should look through your soul too see what your eyes can not, or sometimes.. You just have to add -a option to ls, to see the hidden files.
+
+```
+bandit3@bandit:~/inhere$ ls -la
+total 12
+drwxr-xr-x 2 root    root    4096 Oct 16 14:00 .
+drwxr-xr-x 3 root    root    4096 Oct 16 14:00 ..
+-rw-r----- 1 bandit4 bandit3   33 Oct 16 14:00 .hidden
+bandit3@bandit:~/inhere$
+```
+
+Please look carefully to the output, and the permissions line. Let's check the files we've found:
+First one, named ".", and since it's permission line starts with "d", I know it's a directory file. More so, it's this file we're in right now.
+
+Second is a directory file as well, with two dots? Guess what, it's a directory to home! You can check where they direct with "cd [filename]" command.
+
+The third, and the one we're looking for: It's filetype is marked with "-" instead of "d". This means, this is not a directory, but a regular file. Also now I know, if a file's name starts with dot, such as ".hidden", this means that file is hidden and can't be seen without such options as we used. Now since it's a regular file, I can read it with Cat:
+```
+bandit3@bandit:~/inhere$ cat .hidden
+pIwrPrtPN36QITSp3EQaw936yaFoFgAB
+bandit3@bandit:~/inhere$
+```
+Here's our password.
+Level 3 ---> Level 4 Password : pIwrPrtPN36QITSp3EQaw936yaFoFgAB
+
+# Level 4
