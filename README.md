@@ -97,13 +97,13 @@ drwxr-xr-x : What is this???
 
 Now, let's take it slowly. It all was going well, until we noticed root written twice, and then there's 2. What can these possibly mean? As you've probably guessed so far, this is no single file. This is a Directory file, or what you call a Folder. It's a file, which has files inside, so if you've tried to read it with Cat, you must have seen the error. Now "root root" and number 2 started making sense. But what's with those random letters? Let's go down to the rabbit's hole:
 
-# drwxr-xr-x
-Let's split this mysterious piece of text into 4 parts, shall we? First, the first letter: 
+<h3> What is drwxr-xr-x ?</h3>
+<p>Let's split this mysterious piece of text into 4 parts, shall we? First, the first letter: 
 "D",
 And then, the rest as trigrams:
 "RWX",
 "R-X",
-"R-X".
+"R-X".</p>
 
 We seperated it into blocks, because that's how it should be read. The first block, first character, gives us the type of the file. "D", stands for Directory, and this is also why it's coded in blue text. We will see other file types in time as well, but let's continue. 
 
