@@ -28,7 +28,7 @@ Username and Password is: bandit0
 
 Now first, I set the address and port number, and click "Open" on PuTTY. This opens up a shell connection to the server, which asks for username and password. After entering "bandit0" in both, I gain the access. 
 
-[PuTTY Shell](https://imgur.com/sdjIMkY.png)
+[PuTTY Shell](https://i.imgur.com/sdjIMkY.png)
 
 Finally, we set the connection, we can roam in the server freely! Now our goal is, to find the password which will give us access to Level 1, and it's somewhere in this server. To see what do we have in hand, I use the "ls" command, ls is a short for List, and it lists the files in the directory I'm in.
 ```
