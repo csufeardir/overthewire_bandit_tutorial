@@ -13,7 +13,7 @@ My aim is to explain every single term with details through the whole tutorial, 
  
 Too many terms, and too complicated? Okay, I will try to put it all simply:
 
-[Our PC]  ----SSH---> [Server] / We create a connection between our computer and the server with SSH
+[Our PC]  ----SSH---> [Server] / We create a connection between our computer and the server with SSH <br>
 [Terminal] ----Shell----> [OS] / We send commands to Shell program, which is usually Bash, and it sends the commands to OS for us. With SSH, we don't interfere with Terminal, but while we're managing the server we can use it to access Shell. 
 
 Now if everything is clear, we need to make this SSH connection! But how? First, we need an SSH client. A program to help us make this connection. I will be using PuTTY for Windows OS. You may use another client, or you can download it from the link below:
