@@ -145,3 +145,68 @@ Here's our password.
 Level 3 ---> Level 4 Password : pIwrPrtPN36QITSp3EQaw936yaFoFgAB
 
 # Level 4
+
+According to OverTheWire, the key is in one of the hidden files in /inhere directory. Let's give it a search:
+```
+bandit4@bandit:~/inhere$ ls -la
+total 48
+drwxr-xr-x 2 root    root    4096 Oct 16 14:00 .
+drwxr-xr-x 3 root    root    4096 Oct 16 14:00 ..
+-rw-r----- 1 bandit5 bandit4   33 Oct 16 14:00 -file00
+-rw-r----- 1 bandit5 bandit4   33 Oct 16 14:00 -file01
+-rw-r----- 1 bandit5 bandit4   33 Oct 16 14:00 -file02
+-rw-r----- 1 bandit5 bandit4   33 Oct 16 14:00 -file03
+-rw-r----- 1 bandit5 bandit4   33 Oct 16 14:00 -file04
+-rw-r----- 1 bandit5 bandit4   33 Oct 16 14:00 -file05
+-rw-r----- 1 bandit5 bandit4   33 Oct 16 14:00 -file06
+-rw-r----- 1 bandit5 bandit4   33 Oct 16 14:00 -file07
+-rw-r----- 1 bandit5 bandit4   33 Oct 16 14:00 -file08
+-rw-r----- 1 bandit5 bandit4   33 Oct 16 14:00 -file09
+bandit4@bandit:~/inhere$
+```
+
+There are 9 files in total, easy enough to bruteforce, but there's an easier way. Remember the sidenote before, the "file" command, that shows you the type of file? Let's run it:
+```
+bandit4@bandit:~/inhere$ file ./-file*
+./-file00: data
+./-file01: data
+./-file02: data
+./-file03: data
+./-file04: data
+./-file05: data
+./-file06: data
+./-file07: ASCII text
+./-file08: data
+./-file09: data
+bandit4@bandit:~/inhere$
+
+```
+It's rather obvious, isn't it? :) Cat the file07 and get our password. 
+Note: The syntax ./-file* means run on all the files, that start with "-file" and end with anything, due to asterisk(*).
+Level 4 ---> Level 5 Password : koReBOKuIDDepwhWk7jZC0RTdopnAYKh
+
+# Level 5
+
+This time, we have 20 directories inside the inhere directory, and each one of them have more than one files inside. Now this is harder to bruteforce our way, but we have some extra clues this time, the file we're looking for is:
+
+human-readable
+1033 bytes in size
+not executable
+
+When we have this many files to search, and some specific properties to look for, I want to present you a tool to literally "bruteforce" it for us: Find! 
+
+find command looks for files in a given directory, for given options. We will now use it for our search for the key.
+
+```
+bandit5@bandit:~/inhere$ find ./maybehere* -type f -size 1033c ! -executable
+./maybehere07/.file2
+bandit5@bandit:~/inhere$ cat ./maybehere07/.file2
+DXjZPULLxYr17uwoI01bNLQbtFemEgo7
+
+```
+
+As you see, It's been much easier. Let me explain how we used the find command: I give find command a directory, search all directories that start with name "maybehere", and end with anything. Give me all the files, that has a type f (regular, not directory), with 1033 bytes in size (bytes are symbolized with c) and not executable. I did not include the human readable part for simplicity's sake, but we did not need it either, while we have this many filters already.
+
+Level 5 ---> Level 6 Password : DXjZPULLxYr17uwoI01bNLQbtFemEgo7
+
+# Level 6
