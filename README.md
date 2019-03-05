@@ -210,3 +210,64 @@ As you see, It's been much easier. Let me explain how we used the find command: 
 Level 5 ---> Level 6 Password : DXjZPULLxYr17uwoI01bNLQbtFemEgo7
 
 # Level 6
+
+File we're looking for has following properties:
+
+owned by user bandit7
+owned by group bandit6
+33 bytes in size
+
+A bit similar to the previous one.
+
+```
+bandit6@bandit:~$ ls -la
+total 20
+drwxr-xr-x  2 root root 4096 Oct 16 14:00 .
+drwxr-xr-x 41 root root 4096 Oct 16 14:00 ..
+-rw-r--r--  1 root root  220 May 15  2017 .bash_logout
+-rw-r--r--  1 root root 3526 May 15  2017 .bashrc
+-rw-r--r--  1 root root  675 May 15  2017 .profile
+bandit6@bandit:~$
+```
+Let's do a similar search with find command, but this time, we will add the following options:
+-size 33c // File should be 33 bytes in size
+-user bandit7 // Bandit7 should be the owner user
+-group bandit6 // Bandit6 should be the owner group
+
+With these options, our command is:
+```
+find / -size 33c -user bandit7 -group bandit6
+```
+
+[PuTTY Screenshot](https://imgur.com/FysGHPd.png)
+
+Eh? What is this output? While I'm searching through the whole directory, I also try to search for files I'm not authorized to access to. I still can read the output, but let's get rid of all those "Permission denied" errors.
+
+I will add this line at the end of my find command:
+
+```
+2>/dev/null
+```
+
+So what does this line mean? It says redirect 2, to a file called null, which is inside /dev. What are all these?
+Well, 2 is our code for error outputs. In an output stream, all system errors are denoted as 2. So what's with /dev/null? Null is a device that "drops" any data sent to it. Think of it as the garbage bin, we take all the system errors (2), and throw them into the bin (/dev/null). This gives us a clear output:
+```
+bandit6@bandit:~$ find / -size 33c -user bandit7 -group bandit6 2>/dev/null
+/var/lib/dpkg/info/bandit7.password
+```
+
+The rest is up to you. Just Cat the file and get the password.
+
+Level 6 ---> Level 7 Password : HKBPTKQnIay4Fw76bEy8PVxKEDQRKTzs
+
+# Level 7
+
+
+
+
+
+
+
+
+
+
