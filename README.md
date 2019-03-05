@@ -262,11 +262,64 @@ Level 6 ---> Level 7 Password : HKBPTKQnIay4Fw76bEy8PVxKEDQRKTzs
 
 # Level 7
 
+"The password for the next level is stored in the file data.txt next to the word millionth"
 
+Hmm, we need to find something, but this time, not a file, but a string inside the file. What a coincidence, I have just the right tool to do this for me! It's called "grep".
 
+Grep analyzes the lines inside a file. Now I will use it to suit my needs, I need to find the line starts with "millionth" 
+```
+bandit7@bandit:~$ grep "millionth" data.txt
+millionth       cvX2JJa4CFALtqS87jk27qwqGhBM9plV
+```
 
+Easy as it is.
+Level 7 ---> Level 8 Password : cvX2JJa4CFALtqS87jk27qwqGhBM9plV
 
+# Level 8
 
+"The password for the next level is stored in the file data.txt and is the only line of text that occurs only once"
+
+Another task to solve with manipulating lines. I need to remove any pattern that is repeated more than once. For the easiest solution, I need to use 2 different tools with this one:
+
+Sort, and Uniq. Sort, as can be seen in its name, sorts the file line by line. Uniq is the tool that checks for repeating lines, and gives the unique ones, repeating ones, number of repeating ones and vice versa by the options we've given to it. Here's what I think: I will sort the data.txt line by line, and put the sorted lines in another file I created, like "sorted.txt", then I will use Uniq to find the unique line in this file.
+```
+bandit8@bandit:~$ sort data.txt > sorted.txt
+-bash: sorted.txt: Permission denied
+```
+What is this now? I'm not allowed to create another file! Even more, I'm not even allowed to change data.txt with it's sorted version! Why is this? Let's see why:
+```
+bandit8@bandit:~$ ls -la
+total 56
+drwxr-xr-x  2 root    root     4096 Oct 16 14:00 .
+drwxr-xr-x 41 root    root     4096 Oct 16 14:00 ..
+-rw-r--r--  1 root    root      220 May 15  2017 .bash_logout
+-rw-r--r--  1 root    root     3526 May 15  2017 .bashrc
+-rw-r-----  1 bandit9 bandit8 33033 Oct 16 14:00 data.txt
+-rw-r--r--  1 root    root      675 May 15  2017 .profile
+```
+Remember the permissions? The first trigram was for owner, and second was for group. Now I'm a user inside this group. Let's check the directories, . is the directory I'm in, and group permissions are "r-x", which means I can only read and execute. I can't write anything in this directory! What if I change to home directory? It will be the same, because I'm not allowed to write in .. either. 
+
+Even more, I'm not even allowed to change data.txt to save it's sorted version! So what will I do?
+
+I will use this magnificent mechanism, called Pipelining. Pipelining, denoted by "|" sends output of one tool, to another tool as input. Let's see how it works:
+
+```
+bandit8@bandit:~$ sort data.txt | uniq -u
+UsvVyFSfZZWbi6wgC7dAFyFuR6jQQUhR
+```
+
+It first sorts the data.txt, and then sends the sorted lines to Uniq tool. Uniq tool takes these lines, and gives me the unique line because of the option -u. This mechanism gives me the same result as the method we first tried. If we were able to write in the directory, we would do it like this:
+
+```
+bandit8@bandit:~$ sort data.txt > sorted.txt
+bandit8@bandit:~$ uniq sorted.txt -u
+UsvVyFSfZZWbi6wgC7dAFyFuR6jQQUhR
+```
+By pipelining, we do the exact same, but instead of saving the output to another file, we just direct it to Uniq tool and bypass it without writing anything to the server.
+
+Level 8 ---> Level 9 Password : UsvVyFSfZZWbi6wgC7dAFyFuR6jQQUhR
+
+# Level 9
 
 
 
