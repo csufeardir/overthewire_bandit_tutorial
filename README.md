@@ -384,4 +384,25 @@ Level 11 ---> Level 12 Password : 5Te8Y4drgCRfCx8ugdwuEX8KFC6k2EUu
 
 # Level 12
 
+Here's my favourite. It's a challenging one, but fun. 
+
+"The password for the next level is stored in the file data.txt, which is a hexdump of a file that has been repeatedly compressed.
+For this level it may be useful to create a directory under /tmp in which you can work using mkdir."
+
+We have two different terms, Hexdump and Compression. A hexdump, is a hexadecimal view of data. 
+
+[Hexdump from Wikipeadia](https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Wikipedia_favicon_hexdump.svg/290px-Wikipedia_favicon_hexdump.svg.png)
+
+" In a hex dump, each byte (8-bits) is represented as a two-digit hexadecimal number. Hex dumps are commonly organized into rows of 8 or 16 bytes, sometimes separated by whitespaces. Some hex dumps have the hexadecimal [memory address](https://en.wikipedia.org/wiki/Memory_address) at the beginning and/or a [checksum](https://en.wikipedia.org/wiki/Checksum) byte at the end of each line. "
+
+The upper paragraph is straight from Wikipeadia, I believe it's a perfectly short and useful description so I just used it here. 
+
+Let's come to compression, compression is as you probably know, reducing a file's size by encoding its contents. If I typed 1 million 0's here, that would be 1 million bits, but If I just say "1 million 0s" that will only take 96 bits. I saved a lot of space, but now you have to type 1 million 0s. It comes with a price called decompressing. There are different compression algorithms for different file types, and each has its own advantages and disadvantages. 
+
+Back to the task, we have the password, it's compressed and compressed and compressed again, and now it's in Hexadecimal form. What do we do? Reverse everything that's done on our Password! Their steps are like this:
+
+Password => Compress => Compress => Compress => .... => Compress => Convert to Hex 
+
+We're at the right most end, now let's go back. They converted it to Hex, but from what? From Binary. So let's convert it back to Binary:
+
 
