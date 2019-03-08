@@ -321,6 +321,24 @@ Level 8 ---> Level 9 Password : UsvVyFSfZZWbi6wgC7dAFyFuR6jQQUhR
 
 # Level 9
 
+"The password for the next level is stored in the file data.txt in one of the few human-readable strings, beginning with several ‘=’ characters."
 
+Data.txt has bunch of non-readable strings, and among them is a password. I will use the "Strings" tool, to strip the text off any code that isn't in unicode. 
+```
+bandit9@bandit:~$ strings data.txt
+```
+Now let's pipeline it to Grep, to find the lines that start with equal marks.
+
+```
+bandit9@bandit:~$ strings data.txt | grep "^=="
+========== password
+========== isa
+========== truKLdjsbJ5g7yyJ2X2R0o3a5HQJFuLk
+bandit9@bandit:~$
+```
+
+^ Indicator is used to look for patterns at the beginning of the lines. With "^==" I say look for lines, that start with two equal marks, since it's said that there are several. The output is 3 different lines, and password can be seen among them easily.
+
+Level 9 ---> Level 10 Password : truKLdjsbJ5g7yyJ2X2R0o3a5HQJFuLk
 
 
