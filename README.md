@@ -341,4 +341,47 @@ bandit9@bandit:~$
 
 Level 9 ---> Level 10 Password : truKLdjsbJ5g7yyJ2X2R0o3a5HQJFuLk
 
+# Level 10
+
+"The password for the next level is stored in the file data.txt, which contains base64 encoded data
+
+Another similar task, but hey, there's something new to learn: Base64. It's an encoding method, to transfer the binary data in a text format. Remember ASCII? This is the reverse. Instead of taking the letter "A" and converting it to "1010", I take the "1010" and convert it to "QQ==". Of course, it gives a different outcome, because it's a different encoding system. 
+
+Why can't we just send binary data in binary format? Like I can type 0011 here and that would work? Yes it would and we can, but in certain cases sending binary as data can cause complications, such as interpreting error. As an example, a mail server will look for a certain sequence of bits, to determine the end of the mail. This is a sequence that is not in ASCII table, so none of my typings can be converted to this sequence. But what if I start to send binary, and send the same sequence that indicates the mail ending? Boom. Mail, broke. This was the actual problem that caused invention of Base64.
+
+Now, we got what it is, and why is it used for. Here's a characteristic of Base64: It's length, will always be a factor of 4 due to its convertion algorithm, no matter what. If the encoding ended before reaching a factor of four, equal marks will be added to the end. Example: "QQ==", "ZXhhbXBsZQ==", "R2l0aHVi" .
+
+
+Okay, back to our task. We need to convert this Base64 code to ASCII. 
+[PuTTY Screenshot](https://imgur.com/TH8SUWc.png)
+
+We can use the Base64 tool to encode to and decode from, well, Base64 obviously. 
+```
+bandit10@bandit:~$ base64 -d data.txt
+The password is IFukwKGsFW8MOq3IRFqrxE1hxTNEbUPR
+```
+
+Level 10 ---> Level 11 Password : IFukwKGsFW8MOq3IRFqrxE1hxTNEbUPR
+
+# Level 11
+
+"The password for the next level is stored in the file data.txt, where all lowercase (a-z) and uppercase (A-Z) letters have been rotated by 13 positions"
+
+Rotated by 13 positions, what does it mean? It means the password is encrypted by Rot13. It's a simple ciphering method, and simply works with replacing a letter, with the 13th. letter after it. If I encrypt "A B C" with Rot13, it's "N O P" as an instance.
+
+Let's try to decode this by using Linux tools. A handy one in this case, would be Tr, which is a short for translate. Tr takes patterns of a string, and convert them to different patterns. Like converting all lowercase characters to uppercase, or shifting letters by 13 characters backwards (What a coincidence right??". 
+
+So, here's our syntax with Tr:
+```
+bandit11@bandit:~$ cat data.txt | tr '[A-Za-z]' '[N-ZA-Mn-za-m]'
+The password is 5Te8Y4drgCRfCx8ugdwuEX8KFC6k2EUu
+bandit11@bandit:~$
+```
+
+Since Tr doesn't read files as a parameter, I feed it through Cat by pipelining. Firs parameter '[A-Za-z]' takes all the letters between A-Z, and convert them to second parameter, characters between N-Z and A-M. This is 13 letters shifted backwards from starting and ending point. 
+
+Level 11 ---> Level 12 Password : 5Te8Y4drgCRfCx8ugdwuEX8KFC6k2EUu
+
+# Level 12
+
 
