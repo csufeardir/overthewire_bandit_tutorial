@@ -386,8 +386,7 @@ Level 11 ---> Level 12 Password : 5Te8Y4drgCRfCx8ugdwuEX8KFC6k2EUu
 
 Here's my favourite. It's a challenging one, but fun. 
 
-"The password for the next level is stored in the file data.txt, which is a hexdump of a file that has been repeatedly compressed.
-For this level it may be useful to create a directory under /tmp in which you can work using mkdir."
+"The password for the next level is stored in the file data.txt, which is a hexdump of a file that has been repeatedly compressed."
 
 We have two different terms, Hexdump and Compression. A hexdump, is a hexadecimal view of data. 
 
@@ -403,6 +402,67 @@ Back to the task, we have the password, it's compressed and compressed and compr
 
 Password => Compress => Compress => Compress => .... => Compress => Convert to Hex 
 
-We're at the right most end, now let's go back. They converted it to Hex, but from what? From Binary. So let's convert it back to Binary:
+We're at the right most end, now let's go back. They converted it the compressed file to Hex file, so we should get the compressed version back. We will use the Xxd tool for this. Xxd is a tool to create Hex files, or reverse the Hex files back to binary format.
 
+```
+bandit12@bandit:~$ xxd -r data.txt | file -
+/dev/stdin: gzip compressed data, was "data2.bin", last modified: Tue Oct 16 12:00:23 2018, max compression, from Unix
+```
+
+Now here's what we did here: I told xxd to reverse data.txt, and pipelined the output to File tool. Why did I do this? Because File will give me the type of compression. "file -" tells file to take the file from the pipe, instead of a location. Here, it tells me it's compressed by Gzip. Gzip is a compressing tool using it's own algorithm. Okay, so what we need to do next, is to decompress it with Gzip, and check the file again to see what do we have this time. Let's add another step to our pipe:
+```
+bandit12@bandit:~$ xxd -r data.txt | gzip -d -c | file -
+/dev/stdin: bzip2 compressed data, block size = 900k
+```
+
+Gzip hints: -d means Decompress, -c means send the output through the pipe.
+
+As you can see, this time we got a bzip2 compression. Another compressing tool with another algorithm, and we should do the same to decompress it.
+```
+bandit12@bandit:~$ xxd -r data.txt | gzip -d -c | bzip2 -d -c | file -
+/dev/stdin: gzip compressed data, was "data4.bin", last modified: Tue Oct 16 12:00:23 2018, max compression, from Unix
+```
+
+Another gzip! Pipe it to gzip!
+```
+bandit12@bandit:~$ xxd -r data.txt | gzip -d -c | bzip2 -d -c | gzip -d -c | file -
+/dev/stdin: POSIX tar archive (GNU)
+```
+
+Oh, we have something different this time. It's a TAR compression. TAR uses -x parameter to decompress, and -o to pipe it to the output.
+```
+bandit12@bandit:~$ xxd -r data.txt | gzip -d -c | bzip2 -d -c | gzip -d -c | tar -x -O | file -
+/dev/stdin: POSIX tar archive (GNU)
+```
+Another TAR. Repeat the same step!
+```
+bandit12@bandit:~$ xxd -r data.txt | gzip -d -c | bzip2 -d -c | gzip -d -c | tar -x -O | tar -x -O | file -
+/dev/stdin: bzip2 compressed data, block size = 900k
+```
+This time we got a bzip again. 
+```
+bandit12@bandit:~$ xxd -r data.txt | gzip -d -c | bzip2 -d -c | gzip -d -c | tar -x -O | tar -x -O | bzip2 -d -c | file -
+/dev/stdin: POSIX tar archive (GNU)
+```
+Another tar.. This better be coming to an end.
+```
+bandit12@bandit:~$ xxd -r data.txt | gzip -d -c | bzip2 -d -c | gzip -d -c | tar -x -O | tar -x -O | bzip2 -d -c | tar -x -O | file -
+/dev/stdin: gzip compressed data, was "data9.bin", last modified: Tue Oct 16 12:00:23 2018, max compression, from Unix
+```
+Gzip..
+```
+bandit12@bandit:~$ xxd -r data.txt | gzip -d -c | bzip2 -d -c | gzip -d -c | tar -x -O | tar -x -O | bzip2 -d -c | tar -x -O | gzip -d -c | file -
+/dev/stdin: ASCII text
+```
+
+Ah, Voila! We finally hit something. We decompressed it all the way through, using different algorithms, and found the scroll of truth! Let's pipe the output to Cat, instead of file to read it:
+```
+bandit12@bandit:~$ xxd -r data.txt | gzip -d -c | bzip2 -d -c | gzip -d -c | tar -x -O | tar -x -O | bzip2 -d -c | tar -x -O | gzip -d -c | cat
+The password is 8ZjyCRiBWFYkneahHwxCv3wb2a1ORpYL
+```
+And this journey has come to an end, finally. 
+
+Level 12 ---> Level 13 Password : 8ZjyCRiBWFYkneahHwxCv3wb2a1ORpYL
+
+# Level 13
 
