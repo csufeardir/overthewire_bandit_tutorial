@@ -388,7 +388,7 @@ Here's my favourite. It's a challenging one, but fun.
 
 "The password for the next level is stored in the file data.txt, which is a hexdump of a file that has been repeatedly compressed."
 
-We have two different terms, Hexdump and Compression. A hexdump, is a hexadecimal view of data. 
+We have two different terms, Hexdump and Compression. A hexdump, is a hexadecimal view of data, instead of our standart Binary or ASCII. It's the same data, whether it's Binary, ASCII or Hex, but it's just represented differently. 
 
 [Hexdump from Wikipeadia](https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Wikipedia_favicon_hexdump.svg/290px-Wikipedia_favicon_hexdump.svg.png)
 
@@ -465,4 +465,55 @@ And this journey has come to an end, finally.
 Level 12 ---> Level 13 Password : 8ZjyCRiBWFYkneahHwxCv3wb2a1ORpYL
 
 # Level 13
+
+"The password for the next level is stored in /etc/bandit_pass/bandit14 and can only be read by user bandit14. For this level, you don’t get the next password, but you get a private SSH key that can be used to log into the next level."
+
+Now since we're user Bandit13, and the password is readable only by Bandit14, we can't get it without breaking stuff. Yet, as it's stated, we can see the SSh key in our directory. We had talked about SSh, and an SSh key is a file consisting of a random binary sequence. If you read the key with Cat, you can see it's encoded with Base64.
+
+[PuTTY Screenshot](https://imgur.com/JZzbGpN.png)
+
+Now, we can use SSh keys instead of a password. This way we can automatize things in a more secure way. It says we can log in to Bandit14 with this key as well, so let's do that. We will use the ssh tool to do this, it's an SSh client, just like PuTTY, but we run it on Linux's terminal.
+```
+bandit13@bandit:~$ ssh -i sshkey.private bandit14@bandit.labs.overthewire.org
+```
+"Hey ssh, here's your identifying file: sshkey.private, login to user bandit14 at the server bandit.labs.overthewire.org for me"
+
+This is the syntax of our code, and this is the meaning. Yet, if you've tried this, you will see that it fails to connect. Why tho? Because we're trying to connect the secure shell of a server called "bandit.labs.overthewire.org". You see the problem? WE ARE ALREADY IN THIS SERVER. Searching for it outside is futile. To say "the server is in this machine" to ssh, we use the term "localhost". Localhost refers to the computer the program is running on. Let's try:
+```
+bandit13@bandit:~$ ssh -i sshkey.private bandit14@localhost
+```
+
+After you accept the connection, you will connect to Bandit14 as if you've got it's password and connected to it through PuTTY!
+
+# Bandit 14
+
+"The password for the next level can be retrieved by submitting the password of the current level to port 30000 on localhost."
+
+Hmm, we need our current password. If you remember, we did not get this on the previous level, we just got here by using a key. But, we knew where the password was, and as we're Bandit14 now, we can access it. Let's find out:
+```
+bandit14@bandit:~$ cat /etc/bandit_pass/bandit14
+4wcYUJFw0k0XLShlDzztnTBHiqxU3b3e
+```
+Yup, here's our key. Now we need to submit it to port 30000 on localhost. What does this mean? Well, I need to send a data package, as if I'm connecting to Internet. But instead, I will just send it to another port on this machine. For this task, I will use the popular tool called Netcat.
+
+Netcat can create TCP or UDP connections, or listen to them and give you the output. We need to tell netcat to send this password, to port 30000, on localhost. Easy!
+```
+bandit14@bandit:~$ echo "4wcYUJFw0k0XLShlDzztnTBHiqxU3b3e" | netcat localhost 30000
+Correct!
+BfMYroe26WYalil77FoDi9qh59eK5xNr
+```
+
+I echoed the password and pipelined it to netcat, then told netcat to get this string from pipe and deliver it to port 30000, and here we got our password.
+
+Level 14 ---> Level 15 Password : BfMYroe26WYalil77FoDi9qh59eK5xNr
+
+# Level 15
+
+"The password for the next level can be retrieved by submitting the password of the current level to port 30001 on localhost using SSL encryption."
+
+Same thing, but with SSL encryption. Okay, what's SSL? 
+
+<h3>SSL</h3>
+
+SSL is a cryptographic network protocol, it encrypts the messages sent through the network, and creates a safe way to communicate, just like SSH. Yet, there are two main differences: SSL can't allow you to connect and run commands on shell alone, but it does use Certificates to verify if you're connecting really to the server you want or not. Most common usage of it is with HTTP, altogether known as HTTPS. You can see if your connection is secured by SSL on the left side of address bar of your browser. 
 
