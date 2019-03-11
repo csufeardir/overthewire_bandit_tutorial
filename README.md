@@ -503,7 +503,7 @@ Correct!
 BfMYroe26WYalil77FoDi9qh59eK5xNr
 ```
 
-I echoed the password and pipelined it to netcat, then told netcat to get this string from pipe and deliver it to port 30000, and here we got our password.
+I echoed the password and pipelined it to netcat, then told netcat to get this string from pipe and deliver it to port 30000, and here we got our password. Apparently there's a server running on port 30000, and it is programmed to return the level 15 password when it gets the level 14 password over SSh.
 
 Level 14 ---> Level 15 Password : BfMYroe26WYalil77FoDi9qh59eK5xNr
 
@@ -517,3 +517,91 @@ Same thing, but with SSL encryption. Okay, what's SSL?
 
 SSL is a cryptographic network protocol, it encrypts the messages sent through the network, and creates a safe way to communicate, just like SSH. Yet, there are two main differences: SSL can't allow you to connect and run commands on shell alone, but it does use Certificates to verify if you're connecting really to the server you want or not. Most common usage of it is with HTTP, altogether known as HTTPS. You can see if your connection is secured by SSL on the left side of address bar of your browser. 
 
+To send data through SSL, I will use the OpenSSL tool. OpenSSL can do a variety of things, such as creating keys, certificates, encryption/decryption and server/client connection via SSL. Last one is the feature we need, let's check it's syntax to use it.
+```
+openssl s_client -connect localhost:30001
+```
+
+By s_client, we mean the server/client relationship, and create the connection by -create. Localhost:300001 means the server and the port. [ServerIP]:[PortNumber] is a very commonly used notation. 
+
+Now we have the connection, let's send the password.
+```
+BfMYroe26WYalil77FoDi9qh59eK5xNr
+Correct!
+cluFn7wTiGryunymYOu4RcffSxQluehd
+```
+
+Done!
+Level 15 ---> Level 16 Password : cluFn7wTiGryunymYOu4RcffSxQluehd
+
+# Level 16
+
+"The credentials for the next level can be retrieved by submitting the password of the current level to a port on localhost in the range 31000 to 32000. First find out which of these ports have a server listening on them. Then find out which of those speak SSL and which don’t. There is only 1 server that will give the next credentials, the others will simply send back to you whatever you send to it."
+
+This one requires us to do a list of things we've never done so far. Let's break it into parts:
+
+1/- Scan ports between 31000 and 32000
+2/- Find out which ones have a server listening them
+3/- Find which of these listen to SSL
+4/- Send the password of current level
+
+Let's go starting from the first one. How do we scan the ports? By using our glorious tool Nmap of course. It's the short for Network Mapper, and this amazing tool creates data packets, sends them over different protocols, to different ports, and gives you a stasistic of results.
+
+By usin Nmap, I can send packets to all ports between 31000 and 32000, and find out which ones are listening to what.
+```
+nmap -sV -p 31000-32000 localhost
+```
+This scans for given range of ports on the local host, and their services due to the -sV flag. Now it takes a little time but here's the output:
+```
+Starting Nmap 7.40 ( https://nmap.org ) at 2019-03-11 21:13 CET
+Nmap scan report for localhost (127.0.0.1)
+Host is up (0.00036s latency).
+Not shown: 999 closed ports
+PORT      STATE SERVICE     VERSION
+31518/tcp open  ssl/echo
+31790/tcp open  ssl/unknown
+```
+As you can see, we have 2 ports in the given range that listen to ssl, and only one will give us the answer, while the other's going to send it back to us. Can you guess which is which? Echo will reply us with whatever we send to it. Other one is unknown but it will probably do the charm: So let's create an ssl connection and send it our pw!
+```
+openssl s_client -connect localhost:31790
+cluFn7wTiGryunymYOu4RcffSxQluehd
+Correct!
+-----BEGIN RSA PRIVATE KEY-----
+MIIEogIBAAKCAQEAvmOkuifmMg6HL2YPIOjon6iWfbp7c3jx34YkYWqUH57SUdyJ
+imZzeyGC0gtZPGujUSxiJSWI/oTqexh+cAMTSMlOJf7+BrJObArnxd9Y7YT2bRPQ
+.
+.
+.
+-----END RSA PRIVATE KEY-----
+
+```
+Instead of a password to the next level, we got a key. We had already done using a key to maintain an SSH connection, let's do the same again. I will copy the key to a file in /tmp directory, which we're allowed to write.
+
+```
+echo "-----BEGIN RSA PRIVATE ...... END RSA PRIVATE KEY-----" > /tmp/sshkey.private
+ssh -i /tmp/sshkey.private bandit17@localhost
+```
+
+Now I did not copy the full key here, but this is the code, and after this we get our ssh connection to Bandit17.
+
+# Bandit 17
+
+"There are 2 files in the homedirectory: passwords.old and passwords.new. The password for the next level is in passwords.new and is the only line that has been changed between passwords.old and passwords.new
+
+NOTE: if you have solved this level and see ‘Byebye!’ when trying to log into bandit18, this is related to the next level, bandit19"
+
+Difference between two files. This time I will be quick, because this is simple and we should keep simple things simple.
+```
+bandit17@bandit:~$ diff passwords.new passwords.old
+< kfBf3eYk5BPBRzwjqutbbfE887SVc5Yd
+---
+> hlbSBPAWJmL6WFDb06gpTx1pPButblOA
+```
+
+Top line is added to passwords.new, and bottom line is removed from passwords old. 
+
+Level 17 ---> Level 18 Password : kfBf3eYk5BPBRzwjqutbbfE887SVc5Yd
+
+# Bandit 18
+
+Will be added..
