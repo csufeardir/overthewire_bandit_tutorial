@@ -1,5 +1,5 @@
 # OverTheWire_Bandit_Tutorial
-Tutorial for levels 0-26 of OverTheWire's The Bandit Game, with usage of Windows OS and PuTTY SSh client.
+Tutorial for levels 0-34 of OverTheWire's The Bandit Game, with usage of Windows OS and PuTTY SSh client. 
 
 My aim is to explain every single term with details through the whole tutorial, which should create a decent basic knowledge about Linux OS and it's utilities. 
 
@@ -604,4 +604,27 @@ Level 17 ---> Level 18 Password : kfBf3eYk5BPBRzwjqutbbfE887SVc5Yd
 
 # Bandit 18
 
-Will be added..
+"The password for the next level is stored in a file readme in the homedirectory. Unfortunately, someone has modified .bashrc to log you out when you log in with SSH."
+
+If you've tried logging into Bandit18 with PuTTY or some other client, you will see that it terminates the connection right after establishment, and we know this is because of the modified .bashrc file in this session. Now let's see, what is .bashrc?
+
+.bashrc is a script file, that runs with bash program each time. It's like a configuration file, in example; you start a new terminal, and it starts this script file with itself. If you put an "echo "Terminal started" " command in it, it will print "Terminal started" when you run the terminal. In bandit games, we have the OverTheWire logo and welcome messages in this file to be printed when we connect to it.
+
+Now, somebody modified this file, and added some "terminate session" command in it. So whenever we start a terminal, it runs the .bashrc, and .bashrc tells it to close the session, so we get logged out without being able to do anything. So we need to tell it to run the terminal, but without running .bashrc file.
+
+ In short, we can do this with ssh's -T option. This time I will use it directly instead of PuTTY, since it's harder to add command options with PuTTY. 
+ 
+ [Command Prompt Screenshot](https://imgur.com/9jbtOa6.png)
+
+Rest is as you expected:
+ 
+``` 
+ls
+readme
+cat readme
+IueksS7Ubh8G3DCwVzrTd8rAVOwq3M5x
+```
+
+Level 18 ---> Level 19 Password : IueksS7Ubh8G3DCwVzrTd8rAVOwq3M5x
+
+# Level 19
