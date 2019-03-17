@@ -628,3 +628,41 @@ IueksS7Ubh8G3DCwVzrTd8rAVOwq3M5x
 Level 18 ---> Level 19 Password : IueksS7Ubh8G3DCwVzrTd8rAVOwq3M5x
 
 # Level 19
+
+"To gain access to the next level, you should use the setuid binary in the homedirectory. Execute it without arguments to find out how to use it. The password for this level can be found in the usual place (/etc/bandit_pass), after you have used the setuid binary."
+
+What is setuid?
+Setuid is a special permission, which gives users extra privileges while running an executable file. It's like the manager adding a personnel-only area another label, that "and bandit19" is written on it, so we can also enter this personnel-only area thanks to the manager!
+```
+drwxr-xr-x  2 root     root     4096 Oct 16 14:00 .
+drwxr-xr-x 41 root     root     4096 Oct 16 14:00 ..
+-rwsr-x---  1 bandit20 bandit19 7296 Oct 16 14:00 bandit20-do
+-rw-r--r--  1 root     root      220 May 15  2017 .bash_logout
+-rw-r--r--  1 root     root     3526 May 15  2017 .bashrc
+-rw-r--r--  1 root     root      675 May 15  2017 .profile
+```
+Now as you see, the bandit20-do file is owned by user bandit20. It's the "bandit20 only" area, and if you look carefully, you will see an "s" in our file's permissions indicating setuid bit is set. Which means we're allowed in! 
+
+Now, here's a summary of what we have in hand: We have a script file, called bandit20-do. It belongs to bandit20 so normally we can't use it, but there's a special permission given for this file. As another user, we can't change it but we can execute it. So let us:
+```
+bandit19@bandit:~$ ./bandit20-do
+Run a command as another user.
+  Example: ./bandit20-do id
+bandit19@bandit:~$
+```
+
+Now if you didn't get it: 
+
+[Bandit20]<<<(bandit20-do)---[Bandit19] 
+
+Bandit20 has a program, called bandit20-do, and allows other users to use this program. His program runs commands we feed it on Bandit20's computer. Which means we gain access to it's terminal through this program! You see, misused permissions can be dangerious..
+
+So, what else do we know? We know where the password is stored in Bandit20's computer! So let's feed this program with required commands:
+```
+bandit19@bandit:~$ ./bandit20-do cat /etc/bandit_pass/bandit20
+GbKksEFF4yrVs6il55v6gwY5aVje5f0j
+```
+
+Level 19 ---> Level 20 Password : GbKksEFF4yrVs6il55v6gwY5aVje5f0j
+
+# Level 20
