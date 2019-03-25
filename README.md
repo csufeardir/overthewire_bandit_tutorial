@@ -655,7 +655,7 @@ Now if you didn't get it:
 
 [Bandit20]<<<(bandit20-do)---[Bandit19] 
 
-Bandit20 has a program, called bandit20-do, and allows other users to use this program. His program runs commands we feed it on Bandit20's computer. Which means we gain access to it's terminal through this program! You see, misused permissions can be dangerious..
+Bandit20 has a program, called bandit20-do, and allows other users to use this program. His program runs commands we feed it on Bandit20's computer. Which means we gain access to it's terminal through this program! You see, misused permissions can be dangerous..
 
 So, what else do we know? We know where the password is stored in Bandit20's computer! So let's feed this program with required commands:
 ```
