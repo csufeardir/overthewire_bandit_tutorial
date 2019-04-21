@@ -353,7 +353,7 @@ Now, we got what it is, and why is it used for. Here's a characteristic of Base6
 
 
 Okay, back to our task. We need to convert this Base64 code to ASCII. 
-[PuTTY Screenshot](https://imgur.com/TH8SUWc.png)
+![PuTTY Screenshot](https://imgur.com/TH8SUWc.png)
 
 We can use the Base64 tool to encode to and decode from, well, Base64 obviously. 
 ```
@@ -390,7 +390,7 @@ Here's my favourite. It's a challenging one, but fun.
 
 We have two different terms, Hexdump and Compression. A hexdump, is a hexadecimal view of data, instead of our standart Binary or ASCII. It's the same data, whether it's Binary, ASCII or Hex, but it's just represented differently. 
 
-[Hexdump from Wikipeadia](https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Wikipedia_favicon_hexdump.svg/290px-Wikipedia_favicon_hexdump.svg.png)
+![Hexdump from Wikipeadia](https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Wikipedia_favicon_hexdump.svg/290px-Wikipedia_favicon_hexdump.svg.png)
 
 " In a hex dump, each byte (8-bits) is represented as a two-digit hexadecimal number. Hex dumps are commonly organized into rows of 8 or 16 bytes, sometimes separated by whitespaces. Some hex dumps have the hexadecimal [memory address](https://en.wikipedia.org/wiki/Memory_address) at the beginning and/or a [checksum](https://en.wikipedia.org/wiki/Checksum) byte at the end of each line. "
 
@@ -470,7 +470,7 @@ Level 12 ---> Level 13 Password : 8ZjyCRiBWFYkneahHwxCv3wb2a1ORpYL
 
 Now since we're user Bandit13, and the password is readable only by Bandit14, we can't get it without breaking stuff. Yet, as it's stated, we can see the SSh key in our directory. We had talked about SSh, and an SSh key is a file consisting of a random binary sequence. If you read the key with Cat, you can see it's encoded with Base64.
 
-[PuTTY Screenshot](https://imgur.com/JZzbGpN.png)
+![PuTTY Screenshot](https://imgur.com/JZzbGpN.png)
 
 Now, we can use SSh keys instead of a password. This way we can automatize things in a more secure way. It says we can log in to Bandit14 with this key as well, so let's do that. We will use the ssh tool to do this, it's an SSh client, just like PuTTY, but we run it on Linux's terminal.
 ```
@@ -614,7 +614,7 @@ Now, somebody modified this file, and added some "terminate session" command in 
 
  In short, we can do this with ssh's -T option. This time I will use it directly instead of PuTTY, since it's harder to add command options with PuTTY. 
  
- [Command Prompt Screenshot](https://imgur.com/9jbtOa6.png)
+![Command Prompt Screenshot](https://imgur.com/9jbtOa6.png)
 
 Rest is as you expected:
  
