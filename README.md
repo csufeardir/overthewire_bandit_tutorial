@@ -28,7 +28,7 @@ Username and Password is: bandit0
 
 Now first, I set the address and port number, and click "Open" on PuTTY. This opens up a shell connection to the server, which asks for username and password. After entering "bandit0" in both, I gain the access. 
 
-[PuTTY Shell](https://i.imgur.com/sdjIMkY.png)
+![PuTTY Shell](https://i.imgur.com/sdjIMkY.png)
 
 Finally, we set the connection, we can roam in the server freely! Now our goal is, to find the password which will give us access to Level 1, and it's somewhere in this server. To see what do we have in hand, I use the "ls" command, ls is a short for List, and it lists the files in the directory I'm in.
 ```
@@ -85,7 +85,7 @@ Level 2 ---> Level 3 Password : UmHadQclWmgdLOKQ3YNgjWxGoRMb5luK
 
 I go through the same routine, connection, ls... But this time, something's different. There's a file named "inhere", but it's marked in blue. What's with this strange file, why is it blue? I need more details. And these details, come with the right options. I will use de ls command, with the option "-long" or "-l" in short. This is going to give me more detailed information about this file.
 
-[PuTTY Screenshot](https://imgur.com/OuyPXdO.png)
+![PuTTY Screenshot](https://imgur.com/OuyPXdO.png)
 
 Now this simple line, contains decent amount of information, if you know how to read it. Let's start from right, and go to left:
 inhere: This is our file's name.
@@ -239,7 +239,7 @@ With these options, our command is:
 find / -size 33c -user bandit7 -group bandit6
 ```
 
-[PuTTY Screenshot](https://imgur.com/FysGHPd.png)
+![PuTTY Screenshot](https://imgur.com/FysGHPd.png)
 
 Eh? What is this output? While I'm searching through the whole directory, I also try to search for files I'm not authorized to access to. I still can read the output, but let's get rid of all those "Permission denied" errors.
 
