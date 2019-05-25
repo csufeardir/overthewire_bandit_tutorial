@@ -675,3 +675,4 @@ Here's a tool to make things easier for us: Tmux
 <h3>Tmux</h3>
 The terminal we control can actively run only one task at a time, and while working through an SSH connection we don't get the luxury to open two or more terminals to run more tasks. Here, we use Tmux, to divide our terminal to different parts and control more processes.
 
+
