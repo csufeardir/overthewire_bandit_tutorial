@@ -675,4 +675,11 @@ Here's a tool to make things easier for us: Tmux
 <h3>Tmux</h3>
 The terminal we control can actively run only one task at a time, and while working through an SSH connection we don't get the luxury to open two or more terminals to run more tasks. Here, we use Tmux, to divide our terminal to different parts and control more processes.
 
+If you want to learn most of the commands, have a quick read at this page: https://hackernoon.com/a-gentle-introduction-to-tmux-8d784c404340
 
+I will share only the commands we're going to use. First we start tmux, by writing 'tmux', obviously. Then we use combination "ctrl+b". This makes us give the next command to Tmux, instead of the terminal. By entering the quotation mark( " ==> this guy ) we split the window horizontally -you can also use '%' to split it vertically, and you can use this more than once-. 
+
+To navigate between different terminals, you can use arrow keys
+
+
+Level 20 ---> Level 21 Password : gE269g2h3mw3pwgrj0Ha9Uoqen1c9DGr
