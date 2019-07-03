@@ -679,7 +679,8 @@ If you want to learn most of the commands, have a quick read at this page: https
 
 I will share only the commands we're going to use. First we start tmux, by writing 'tmux', obviously. Then we use combination "ctrl+b". This makes us give the next command to Tmux, instead of the terminal. By entering the quotation mark( " ==> this guy ) we split the window horizontally -you can also use '%' to split it vertically, and you can use this more than once-. 
 
-To navigate between different terminals, you can use arrow keys
+To navigate between different terminals, you can use arrow keys, but once again, use the combination of "ctrl+b" before to give the command to Tmux.
+
 
 
 Level 20 ---> Level 21 Password : gE269g2h3mw3pwgrj0Ha9Uoqen1c9DGr
