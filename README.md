@@ -681,6 +681,6 @@ I will share only the commands we're going to use. First we start tmux, by writi
 
 To navigate between different terminals, you can use arrow keys, but once again, use the combination of "ctrl+b" before to give the command to Tmux.
 
-
+Now what we're going to do is rather easy. In one window, we'll create echo the password of the current level to a port we choose, and in the other we're going to listen that port via "suconnect". 
 
 Level 20 ---> Level 21 Password : gE269g2h3mw3pwgrj0Ha9Uoqen1c9DGr
