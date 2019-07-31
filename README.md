@@ -1,6 +1,6 @@
 
 # OverTheWire_Bandit_Tutorial
-Tutorial for levels 0-34 of OverTheWire's The Bandit Game, with usage of Windows OS and PuTTY SSh client. 
+Tutorial for levels 0-34 of OverTheWire's The Bandit Game, with usage of PuTTY SSh client. 
 
 My aim is to explain every single term with details through the whole tutorial, which should create a decent basic knowledge about Linux OS and it's utilities. 
 
